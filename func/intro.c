@@ -26,7 +26,7 @@ int main() {
 
     
     
-    
+    system("cls");
     printf("\033[0;32m");  // Set text color to green
     FILE *read_name;
 
