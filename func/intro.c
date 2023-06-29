@@ -14,20 +14,19 @@ void press_any_key_to_continue() {
 #endif
 }
 
-// Clear the Screen
-void clear_screen() {
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
-}
+
 
 // User Location
 int x_loc;
 int y_loc;
 
 int main() {
+
+
+
+    
+    
+    
     printf("\033[0;32m");  // Set text color to green
     FILE *read_name;
 

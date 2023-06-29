@@ -4,6 +4,11 @@
 #include <dirent.h> // Added for opendir function
 
 int main() {
+    
+    
+    
+    printf("\033[0;32m");  // Set text color to green
+
     printf("\nLook's Like You are New\n");
     printf("\nBefore we start, we must make you a charachter\n");
     printf("\nso...\n");

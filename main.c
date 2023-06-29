@@ -8,32 +8,33 @@
 #include<conio.h>
 #else
 #include <stdio_ext.h>
+#include <unistd.h> // for usleep function (UNIX-based systems)
 #endif
-
-
 
 void print_image(FILE *fptr)
 {
     char read_string[MAX_LEN];
  
-    while(fgets(read_string,sizeof(read_string),fptr) != NULL)
-        printf("%s",read_string);
+    while (fgets(read_string, sizeof(read_string), fptr) != NULL) {
+        printf("%s", read_string);
+#ifdef _WIN32
+        Sleep(300); // i like 300 miliseconds
+#else
+        usleep(100000); // Delay between lines (in microseconds) for UNIX-based systems
+#endif
+    }
 }
-
-
-
-
 
 int main() {
     clear_screen();
-       printf("\033[0;32m");  // Set text color to green
+    printf("\033[0;32m");  // Set text color to green
     
-        char *filename = "func/image.txt";
+    char *filename = "func/title_splash.txt";
     FILE *splash = NULL;
  
-    if((splash = fopen(filename,"r")) == NULL)
+    if ((splash = fopen(filename, "r")) == NULL)
     {
-        fprintf(stderr,"error opening %s\n",filename);
+        fprintf(stderr, "Error opening %s\n", filename);
         return 1;
     }
  
@@ -41,11 +42,10 @@ int main() {
  
     fclose(splash);
 
-
-    
-
+        
 
 
+    printf("\nsome text\n");
     press_any_key_to_continue();
 
     FILE *does_char_data_exist;
@@ -77,4 +77,3 @@ int main() {
 
     return 0;
 }
-
