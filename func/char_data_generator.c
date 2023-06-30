@@ -6,6 +6,17 @@
 #include "commands.c"
 
 int main() {
+
+    //If a Charachter exists, skip charachter creation
+    // Check if "char_data" folder already exists
+    DIR *dir = opendir("char_data");
+    if (dir != NULL) {
+        printf("The 'char_data' directory already exists.\n");
+            // Load another .exe file
+             system("intro.exe");
+        return 0;
+    }
+
     system("cls");
     printf("\033[0;32m");  // Set text color to green
 
@@ -21,14 +32,7 @@ int main() {
 
 
 
-    // Check if "char_data" folder already exists
-    DIR *dir = opendir("char_data");
-    if (dir != NULL) {
-        printf("The 'char_data' directory already exists.\n");
-        printf("Exiting...\n");
-        closedir(dir);
-        return 0;
-    }
+
 
     // Create the "char_data" folder if it doesn't exist
     int result = system("mkdir char_data");
