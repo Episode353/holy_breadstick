@@ -53,7 +53,7 @@ int x_loc;
 int y_loc;
 
 // Grid size
-const int gridXsize = 15;
+const int gridXsize = 25;
 const int gridYsize = 15;
 
 // Function to clear the screen
@@ -96,37 +96,38 @@ void displayGrid() {
         grid[items[i].y][items[i].x] = items[i].symbol;
     }
 
-    // Print the grid with colors and symbols
-    printf("\n");
-    for (int i = 0; i < gridYsize; i++) {
-        for (int j = 0; j < gridXsize; j++) {
-            // Get the color of the item at the current position (i, j)
-            char color[20] = "";
-            char symbol = grid[i][j];
-            for (int k = 0; k < numItems; k++) {
-                if (items[k].x == j && items[k].y == i) {
-                    strcpy(color, items[k].color);
-                    break;
-                }
+   // Print the grid with colors and symbols
+printf("\n");
+for (int i = gridYsize - 1; i >= 0; i--) {
+    for (int j = 0; j < gridXsize; j++) {
+        // Get the color of the item at the current position (j, i)
+        char color[20] = "";
+        char symbol = grid[i][j];
+        for (int k = 0; k < numItems; k++) {
+            if (items[k].x == j && items[k].y == i) {
+                strcpy(color, items[k].color);
+                break;
             }
-
-            // Set the text color
-            if (strcmp(color, "red") == 0) {
-                printf("\033[0;31m"); // Red
-            } else if (strcmp(color, "green") == 0) {
-                printf("\033[0;32m"); // Green
-            } else if (strcmp(color, "blue") == 0) {
-                printf("\033[0;34m"); // Blue
-            } else {
-                printf("\033[0m"); // Default color
-            }
-
-            printf("%c ", symbol);
         }
-        printf("\n");
+
+        // Set the text color
+        if (strcmp(color, "red") == 0) {
+            printf("\033[0;31m"); // Red
+        } else if (strcmp(color, "green") == 0) {
+            printf("\033[0;32m"); // Green
+        } else if (strcmp(color, "blue") == 0) {
+            printf("\033[0;34m"); // Blue
+        } else {
+            printf("\033[0m"); // Default color
+        }
+
+        printf("%c ", symbol);
     }
-    printf("\033[0m"); // Reset text color
     printf("\n");
+}
+printf("\033[0m"); // Reset text color
+printf("\n");
+
 }
 
 

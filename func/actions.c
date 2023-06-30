@@ -6,12 +6,11 @@
 extern int x_loc;
 extern int y_loc;
 
-// Function for handling action: Go
 void performGoAction(const char* action) {
     if (strcmp(action, "north") == 0) {
-        y_loc = y_loc - 1;
+        y_loc = y_loc + 1;  // Increase Y coordinate when moving north
     } else if (strcmp(action, "south") == 0) {
-        y_loc = y_loc + 1;
+        y_loc = y_loc - 1;  // Decrease Y coordinate when moving south
     } else if (strcmp(action, "east") == 0) {
         x_loc = x_loc + 1;
     } else if (strcmp(action, "west") == 0) {
@@ -25,6 +24,7 @@ void performGoAction(const char* action) {
     printf("New position: x = %d, y = %d.\n", x_loc, y_loc);
     locationCheck();
 }
+
 
 // Function for handling action: Go To
 void performGoToAction(const char* coordinates) {
