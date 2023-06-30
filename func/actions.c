@@ -69,9 +69,51 @@ Places
 ---------------------------------------------
 */
 
-// A Small Can
-void locationCheck() {
-    if (x_loc == 3 && y_loc == 4) {
-        printf("You see a can.\n");
+// Structure to store location data
+typedef struct {
+    int x;
+    int y;
+    char color[20];
+    char name[100];
+    char description[1000];
+} Location;
+
+// Function to parse location data from locations.txt
+void parseLocations(Location* locations, int* numLocations) {
+    FILE* file = fopen("locations.txt", "r");
+    if (file == NULL) {
+        printf("Failed to open locations.txt.\n");
+        return;
     }
+
+    int count = 0;
+    while (!feof(file)) {
+        Location location;
+        if (fscanf(file, "%d,%d,%[^,],%[^,],%[^\n]\n", &location.x, &location.y, location.color, location.name, location.description) == 5) {
+            locations[count] = location;
+            count++;
+        }
+    }
+
+    fclose(file);
+    *numLocations = count;
 }
+
+// Function to get the description of a location at the current coordinates
+void locationCheck() {
+    Location locations[100]; // Adjust the maximum number of locations as needed
+    int numLocations = 0;
+    parseLocations(locations, &numLocations);
+
+    for (int i = 0; i < numLocations; i++) {
+        if (locations[i].x == x_loc && locations[i].y == y_loc) {
+            printf("\n");
+            printf("Location: %s\n", locations[i].name);
+            printf("Description: %s\n", locations[i].description);
+            break;
+        }
+    }
+
+    printf("\n");
+}
+

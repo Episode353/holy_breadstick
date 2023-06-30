@@ -15,18 +15,37 @@ void press_any_key_to_continue() {
 #endif
 }
 
-
-
 // User Location
 int x_loc;
 int y_loc;
 
+// Function to display the grid
+void displayGrid() {
+    // Create a 2D array to represent the grid
+    char grid[10][10];
+
+    // Initialize the grid with empty spaces
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            grid[i][j] = ' ';
+        }
+    }
+
+    // Set the player's position in the grid
+    grid[y_loc][x_loc] = 'P';
+
+    // Print the grid
+    printf("\n");
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            printf("%c ", grid[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
 int main() {
-
-
-
-    
-    
     system("cls");
     printf("\033[0;32m");  // Set text color to green
     FILE *read_name;
@@ -51,6 +70,8 @@ int main() {
     int quit = 0;
 
     while (!quit) {
+        displayGrid();  // Display the grid
+
         printf("Enter your action: ");
         fgets(userInput, sizeof(userInput), stdin);
         userInput[strcspn(userInput, "\n")] = '\0';  // Remove the newline character
