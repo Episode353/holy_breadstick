@@ -9,9 +9,9 @@ extern int y_loc;
 // Function for handling action: Go
 void performGoAction(const char* action) {
     if (strcmp(action, "north") == 0) {
-        y_loc = y_loc + 1;
-    } else if (strcmp(action, "south") == 0) {
         y_loc = y_loc - 1;
+    } else if (strcmp(action, "south") == 0) {
+        y_loc = y_loc + 1;
     } else if (strcmp(action, "east") == 0) {
         x_loc = x_loc + 1;
     } else if (strcmp(action, "west") == 0) {
