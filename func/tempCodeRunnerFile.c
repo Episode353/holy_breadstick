@@ -53,7 +53,7 @@ int x_loc;
 int y_loc;
 
 // Grid size
-const int gridXsize = 15;
+const int gridXsize = 50;
 const int gridYsize = 15;
 
 // Function to clear the screen
@@ -67,11 +67,14 @@ void clearScreen() {
 
 // Function to display the grid
 void displayGrid() {
-    clearScreen(); // Clear the screen
+    
+        // Print the Top border
+    printf(" ");
+    for (int i = 0; i < gridXsize; i++) {
+        printf("--");
+    }
+    printf("\n");
 
-    // Print the location, current position, and other information
-    locationCheck();
-    printf("Current position: x = %d, y = %d\n", x_loc, y_loc);
 
     // Create a 2D array to represent the grid
     char grid[gridYsize][gridXsize];
@@ -97,10 +100,11 @@ void displayGrid() {
     }
 
     // Print the grid with colors and symbols
-    printf("\n");
-    for (int i = 0; i < gridYsize; i++) {
+    for (int i = gridYsize - 1; i >= 0; i--) {
+        printf("|"); // Print the left border
+
         for (int j = 0; j < gridXsize; j++) {
-            // Get the color of the item at the current position (i, j)
+            // Get the color of the item at the current position (j, i)
             char color[20] = "";
             char symbol = grid[i][j];
             for (int k = 0; k < numItems; k++) {
@@ -121,20 +125,38 @@ void displayGrid() {
                 printf("\033[0m"); // Default color
             }
 
-            printf("%c ", symbol);
+            printf(" %c", symbol); // Add space before character
         }
+
+        printf(" |"); // Print the right border
         printf("\n");
     }
+
+    // Print the bottom border
+    printf(" ");
+    for (int i = 0; i < gridXsize; i++) {
+        printf("--");
+    }
+
+        // Print the location, current position, and other information
+    locationCheck();
+    printf("Current position: x = %d, y = %d\n", x_loc, y_loc);
+
+    
+    printf("\n\n"); // Add newlines for spacing
+
     printf("\033[0m"); // Reset text color
-    printf("\n");
+    
 }
+
+
 
 
 
 
 int main() {
     system("cls");
-    printf("\033[0;32m");  // Set text color to green
+
     FILE* read_name;
 
     // Open a file in read mode
