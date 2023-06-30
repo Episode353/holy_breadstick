@@ -4,6 +4,8 @@
         "stdlib.h": "c",
         "conio.h": "c",
         "adodef.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "dirent.h": "c",
+        "unistd.h": "c"
     }
 }

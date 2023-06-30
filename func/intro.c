@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "actions.c"
+#include "textcolors.c"
 
 // Hold Program until user input
 void press_any_key_to_continue() {

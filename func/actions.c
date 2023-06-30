@@ -60,6 +60,7 @@ void performLookAction() {
 void performQuitAction() {
     // Implement the logic for the "Quit" action here
     printf("Goodbye!\n");
+    exit(0);
 }
 
 /*

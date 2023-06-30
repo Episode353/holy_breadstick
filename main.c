@@ -10,16 +10,7 @@
 #include <stdio_ext.h>
 #include <unistd.h> // for usleep function (UNIX-based systems)
 #endif
-
-
-#define KNRM  "\x1B[0m"
-#define KRED  "\x1B[31m"
-#define KGRN  "\x1B[32m"
-#define KYEL  "\x1B[33m"
-#define KBLU  "\x1B[34m"
-#define KMAG  "\x1B[35m"
-#define KCYN  "\x1B[36m"
-#define KWHT  "\x1B[37m"
+#include "func/textcolors.c"
 
 void print_image(FILE *fptr)
 {
@@ -46,6 +37,15 @@ void print_image(FILE *fptr)
     }
 }
 
+void show_menu()
+{
+    printf("\nOptions:\n");
+    printf("1. Start Game (go to intro.exe)\n");
+    printf("2. How to Play (load a .txt into the cmd, then after it is loaded give the user these options again)\n");
+    printf("3. Delete Character (delete folder char_data)\n");
+    printf("4. Quit\n");
+}
+
 int main() {
     clear_screen();
     printf("\033[0;32m");  // Set text color to green
@@ -63,35 +63,60 @@ int main() {
 
     fclose(splash);
 
-    press_any_key_to_continue();
+   
 
+    int choice;
+    do {
+        
+        show_menu();
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        getchar(); // Consume the newline character
 
-    FILE *does_char_data_exist;
-
-    // If "char_data/name.txt" exists, then go to read the file
-    if (does_char_data_exist = fopen("func/char_data/age.txt", "r")) {
-        fclose(does_char_data_exist);
-        printf("File exists\n");
-
+        switch (choice) {
+            case 1:
 #ifdef _WIN32
-        // Windows command to clear screen, change directory, and execute the file
-        system("cls && cd func && intro.exe");
+                // Windows command to clear screen, change directory, and execute the file
+                system("cls && cd func && char_data_generator.exe");
 #else
-        // UNIX-based command to clear screen, change directory, and execute the file
-        system("clear && cd func && ./intro.exe");
+                // UNIX-based command to clear screen, change directory, and execute the file
+                system("clear && cd func && ./char_data_generator.exe");
 #endif
-    } else {
-        // If file does not exist, let's make one
-        printf("File doesn't exist\n");
+                break;
 
+            case 2:
+                // Load a .txt into the cmd
+                // Replace "path_to_file.txt" with the actual path to the file you want to load
 #ifdef _WIN32
-        // Windows command to clear screen, change directory, and execute the file
-        system("cls && cd func && char_data_generator.exe");
+                system("type actions.txt");
 #else
-        // UNIX-based command to clear screen, change directory, and execute the file
-        system("clear && cd func && ./char_data_generator.exe");
+                system("cat actions.txt");
 #endif
-    }
+                press_any_key_to_continue();
+                break;
+
+            case 3:
+#ifdef _WIN32
+                // Windows command to delete folder char_data
+                system("rmdir /s /q func\\char_data");
+#else
+                // UNIX-based command to delete folder char_data
+                system("rm -rf func/char_data");
+#endif
+                printf("Character deleted.\n");
+                press_any_key_to_continue();
+                break;
+
+            case 4:
+                printf("Quitting...\n");
+                break;
+
+            default:
+                printf("Invalid choice. Please try again.\n");
+                press_any_key_to_continue();
+                break;
+        }
+    } while (choice != 4);
 
     return 0;
 }
