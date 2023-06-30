@@ -40,9 +40,9 @@ void print_image(FILE *fptr)
 void show_menu()
 {
     printf("\nOptions:\n");
-    printf("1. Start Game (go to intro.exe)\n");
-    printf("2. How to Play (load a .txt into the cmd, then after it is loaded give the user these options again)\n");
-    printf("3. Delete Character (delete folder char_data)\n");
+    printf("1. Start Game\n");
+    printf("2. How to Play\n");
+    printf("3. Delete Character\n");
     printf("4. Quit\n");
 }
 

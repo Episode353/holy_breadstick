@@ -6,7 +6,17 @@
 extern int x_loc;
 extern int y_loc;
 
+// Function to clear the screen
+void clearScreen() {
+#ifdef _WIN32
+    system("cls"); // For Windows
+#else
+    system("clear"); // For Linux/Unix
+#endif
+}
+
 void performGoAction(const char* action) {
+    clearScreen();
     if (strcmp(action, "north") == 0) {
         y_loc = y_loc + 1;  // Increase Y coordinate when moving north
     } else if (strcmp(action, "south") == 0) {
@@ -28,6 +38,7 @@ void performGoAction(const char* action) {
 
 // Function for handling action: Go To
 void performGoToAction(const char* coordinates) {
+    clearScreen();
     int x_dest, y_dest;
     if (sscanf(coordinates, "%d,%d", &x_dest, &y_dest) != 2) {
         printf("Invalid coordinates.\n");
@@ -52,6 +63,7 @@ void performGoToAction(const char* coordinates) {
 
 // Function for handling action: Look
 void performLookAction() {
+    clearScreen();
     // Implement the logic for the "Look" action here
     printf("You look around.\n");
 }

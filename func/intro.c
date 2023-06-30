@@ -56,17 +56,11 @@ int y_loc;
 const int gridXsize = 50;
 const int gridYsize = 15;
 
-// Function to clear the screen
-void clearScreen() {
-#ifdef _WIN32
-    system("cls"); // For Windows
-#else
-    system("clear"); // For Linux/Unix
-#endif
-}
+
 
 // Function to display the grid
 void displayGrid() {
+    
     
         // Print the Top border
     printf(" ");
@@ -155,6 +149,7 @@ void displayGrid() {
 
 
 int main() {
+    printf("\033[0m"); // Reset text color
     system("cls");
 
     FILE* read_name;
@@ -198,6 +193,7 @@ int main() {
                     performGoAction(argument);
                 }
             } else {
+                clearScreen();
                 printf("Invalid action.\n");
             }
         } else if (action != NULL) {
@@ -207,9 +203,11 @@ int main() {
                 performQuitAction();
                 quit = 1;
             } else {
+                clearScreen();
                 printf("Invalid action.\n");
             }
         } else {
+            
             printf("Invalid input.\n");
         }
     }
