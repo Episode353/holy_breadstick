@@ -22,7 +22,7 @@ void performGoAction(const char* action) {
 
     printf("You go %s.\n", action);
     printf("New position: x = %d, y = %d.\n", x_loc, y_loc);
-    locationCheck();
+    
 }
 
 
@@ -47,7 +47,7 @@ void performGoToAction(const char* coordinates) {
     y_loc = y_dest;
 
     printf("New position: x = %d, y = %d.\n", x_loc, y_loc);
-    locationCheck();
+    
 }
 
 // Function for handling action: Look
