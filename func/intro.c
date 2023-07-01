@@ -16,6 +16,8 @@ void press_any_key_to_continue() {
 }
 
 
+
+
 // Structure to store item data
 typedef struct {
     int x;
@@ -24,6 +26,40 @@ typedef struct {
     char name[100];
     char symbol;
 } Item;
+
+typedef struct {
+    int start_x;
+    int start_y;
+    int end_x;
+    int end_y;
+    char name[100];
+    char color[20];
+    char symbol;
+    char description[1000];
+} Biome;
+
+void parseBiomes(Biome* biomes, int* numBiomes) {
+    FILE* file = fopen("biomes.txt", "r");
+    if (file == NULL) {
+        printf("Failed to open biomes.txt.\n");
+        return;
+    }
+
+    int count = 0;
+    while (!feof(file)) {
+        Biome biome;
+        if (fscanf(file, "%d,%d,%d,%d,%[^,],%[^,],%c,%[^\n]\n",
+            &biome.start_x, &biome.start_y, &biome.end_x, &biome.end_y,
+            biome.name, biome.color, &biome.symbol, biome.description) == 8) {
+            biomes[count] = biome;
+            count++;
+        }
+    }
+
+    fclose(file);
+    *numBiomes = count;
+}
+
 
 // Function to parse item data from items.txt
 void parseItems(Item* items, int* numItems) {
@@ -53,8 +89,8 @@ int x_loc;
 int y_loc;
 
 // Grid size
-const int gridXsize = 50;
-const int gridYsize = 15;
+const int gridXsize = 40;
+const int gridYsize = 30;
 
 
 
@@ -91,6 +127,20 @@ void displayGrid() {
     // Set the items' positions and symbols in the grid
     for (int i = 0; i < numItems; i++) {
         grid[items[i].y][items[i].x] = items[i].symbol;
+    }
+
+      // Create an array to store biome data
+    Biome biomes[100]; // Adjust the maximum number of biomes as needed
+    int numBiomes = 0;
+    parseBiomes(biomes, &numBiomes);
+
+    // Set the biomes on the grid
+    for (int i = 0; i < numBiomes; i++) {
+        for (int y = biomes[i].start_y; y <= biomes[i].end_y; y++) {
+            for (int x = biomes[i].start_x; x <= biomes[i].end_x; x++) {
+                grid[y][x] = biomes[i].symbol;
+            }
+        }
     }
 
     // Print the grid with colors and symbols

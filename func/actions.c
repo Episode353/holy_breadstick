@@ -158,3 +158,4 @@ void performHelpAction() {
     fclose(file);
     printf("\n");
 }
+
