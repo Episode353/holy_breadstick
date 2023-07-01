@@ -15,6 +15,7 @@ void clearScreen() {
 #endif
 }
 
+// Function for handling action: Go
 void performGoAction(const char* action) {
     clearScreen();
     if (strcmp(action, "north") == 0) {
@@ -32,18 +33,24 @@ void performGoAction(const char* action) {
 
     printf("You go %s.\n", action);
     printf("New position: x = %d, y = %d.\n", x_loc, y_loc);
-    
 }
-
 
 // Function for handling action: Go To
 void performGoToAction(const char* coordinates) {
     clearScreen();
-    int x_dest, y_dest;
-    if (sscanf(coordinates, "%d,%d", &x_dest, &y_dest) != 2) {
+
+    // Split the coordinates string into x and y substrings
+    char* x_str = strtok(coordinates, ",");
+    char* y_str = strtok(NULL, ",");
+
+    if (x_str == NULL || y_str == NULL) {
         printf("Invalid coordinates.\n");
         return;
     }
+
+    // Convert the x and y substrings to integers
+    int x_dest = atoi(x_str);
+    int y_dest = atoi(y_str);
 
     int x_diff = x_dest - x_loc;
     int y_diff = y_dest - y_loc;
@@ -58,8 +65,10 @@ void performGoToAction(const char* coordinates) {
     y_loc = y_dest;
 
     printf("New position: x = %d, y = %d.\n", x_loc, y_loc);
-    
 }
+
+
+
 
 // Function for handling action: Look
 void performLookAction() {
@@ -70,10 +79,12 @@ void performLookAction() {
 
 // Function for handling action: Quit
 void performQuitAction() {
+    clearScreen();
     // Implement the logic for the "Quit" action here
     printf("Goodbye!\n");
     exit(0);
 }
+
 
 /*
 ---------------------------------------------
@@ -129,3 +140,21 @@ void locationCheck() {
     printf("\n");
 }
 
+// Function for handling action: Help
+void performHelpAction() {
+    clearScreen();
+    FILE* file = fopen("../actions.txt", "r");
+    if (file == NULL) {
+        printf("Failed to open help file.\n");
+        return;
+    }
+
+    printf("\n");
+    char line[256];
+    while (fgets(line, sizeof(line), file) != NULL) {
+        printf("%s", line);
+    }
+
+    fclose(file);
+    printf("\n");
+}

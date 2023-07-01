@@ -1,0 +1,3 @@
+3,4,green,Forest,A lush green forest filled with tall trees.
+1,1,brown,Desert,A vast expanse of sandy dunes.
+7,2,blue,Ocean,A sparkling blue ocean stretching to the horizon.

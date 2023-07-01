@@ -2,7 +2,13 @@ Go
     Use "Go" followed by a direction to go that direction instantly
     For example "Go North" or "Go East"
 
-Go to
+Goto
     Travels to specific coordinates, but will take an ammount of time
     For example "go to 3,5" or "Go to 12,45"
+
+Look
+    Look around and see what is in the area
+    
+Quit
+    Quit the program
 
