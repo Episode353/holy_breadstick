@@ -94,17 +94,13 @@ const int gridYsize = 30;
 
 
 
-// Function to display the grid
 void displayGrid() {
-    
-    
-        // Print the Top border
+    // Print the Top border
     printf(" ");
     for (int i = 0; i < gridXsize; i++) {
         printf("--");
     }
     printf("\n");
-
 
     // Create a 2D array to represent the grid
     char grid[gridYsize][gridXsize];
@@ -116,9 +112,6 @@ void displayGrid() {
         }
     }
 
-    // Set the player's position in the grid
-    grid[y_loc][x_loc] = 'P';
-
     // Parse item data
     Item items[100]; // Adjust the maximum number of items as needed
     int numItems = 0;
@@ -129,7 +122,7 @@ void displayGrid() {
         grid[items[i].y][items[i].x] = items[i].symbol;
     }
 
-      // Create an array to store biome data
+    // Create an array to store biome data
     Biome biomes[100]; // Adjust the maximum number of biomes as needed
     int numBiomes = 0;
     parseBiomes(biomes, &numBiomes);
@@ -169,7 +162,12 @@ void displayGrid() {
                 printf("\033[0m"); // Default color
             }
 
-            printf(" %c", symbol); // Add space before character
+            // Check if the current position matches the player's position
+            if (j == x_loc && i == y_loc) {
+                printf(" \033[1;33mP"); // Print player symbol with yellow color
+            } else {
+                printf(" %c", symbol); // Add space before character
+            }
         }
 
         printf(" |"); // Print the right border
@@ -182,16 +180,14 @@ void displayGrid() {
         printf("--");
     }
 
-        // Print the location, current position, and other information
+    // Print the location, current position, and other information
     locationCheck();
-    
 
-    
     printf("\n\n"); // Add newlines for spacing
-    
+
     printf("\033[0m"); // Reset text color
-    
 }
+
 
 
 
