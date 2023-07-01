@@ -1,4 +1,5 @@
 3,4,red,Small Can,A small can sitting on the ground.
 1,1,white,Rock,A Rock on the Ground.
 7,2,blue,Blue Can, A Small blue can laying on the ground
+7,5,yellow,Desert, The Heat is Unbearable
 

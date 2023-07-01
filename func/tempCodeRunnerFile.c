@@ -1,7 +1,3 @@
-
-}
-
-
 // Structure to store item data
 typedef struct {
     int x;

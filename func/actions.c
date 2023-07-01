@@ -158,3 +158,17 @@ void performHelpAction() {
     fclose(file);
     printf("\n");
 }
+
+void reloadApplication() {
+#ifdef _WIN32
+    char command[100] = "start intro.exe";
+    system(command);
+#else
+    char path[PATH_MAX];
+    ssize_t count = readlink("/proc/self/exe", path, PATH_MAX);
+    if (count != -1 && count < PATH_MAX) {
+        path[count] = '\0';
+        execl(path, path, NULL);
+    }
+#endif
+}
