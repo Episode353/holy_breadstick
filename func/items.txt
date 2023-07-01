@@ -1,3 +1,2 @@
 3,4,red,Small Can,C
 7,2,blue,Blue Can,F
-7,5,yellow,Desert,~

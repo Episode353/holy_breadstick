@@ -4,13 +4,6 @@
 #include "actions.c"
 #include "textcolors.c"
 
-#ifdef _WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
-
-
 // Hold Program until user input
 void press_any_key_to_continue() {
     printf("\nPress a key to continue...");
@@ -181,47 +174,49 @@ int main() {
     int quit = 0;
 
     while (!quit) {
-    displayGrid();  // Display the grid
+        displayGrid();  // Display the grid
 
-    printf("Enter your action: ");
-    fgets(userInput, sizeof(userInput), stdin);
-    userInput[strcspn(userInput, "\n")] = '\0';  // Remove the newline character
+        printf("Enter your action: ");
+        fgets(userInput, sizeof(userInput), stdin);
+        userInput[strcspn(userInput, "\n")] = '\0';  // Remove the newline character
 
-    // Parse the user's input to determine the action and argument
-    char* action = strtok(userInput, " ");
-    char* argument = strtok(NULL, " ");
+        // Parse the user's input to determine the action and argument
+        char* action = strtok(userInput, " ");
+        char* argument = strtok(NULL, " ");
 
-    if (action != NULL) {
-        switch (action[0]) {
-            case 'g':
-                // ...
-                break;
-            case 'l':
-                // ...
-                break;
-            case 'q':
-                // ...
-                break;
-            case 'h':
-                // ...
-                break;
-            case 'r':
-                if (strcmp(action, "reload") == 0) {
-                    reloadApplication();
-                    quit = 1;  // Exit the main loop after reloading
-                } else {
-                    printf("Invalid action.\n");
-                }
-                break;
-            default:
-                printf("Invalid action.\n");
-                break;
+        if (action != NULL) {
+            switch (action[0]) {
+    case 'g':
+        if (strcmp(action, "go") == 0) {
+            performGoAction(argument);
+        } else if (strcmp(action, "goto") == 0) {
+            performGoToAction(argument);
+        } else {
+            printf("Invalid action.\n");
         }
-    } else {
-        printf("Invalid input.\n");
-    }
+        break;
+    case 'l':
+        if (strcmp(action, "look") == 0) {
+            performLookAction();
+        } else {
+            printf("Invalid action.\n");
+        }
+        break;
+    case 'q':
+        performQuitAction();
+        break;
+    case 'h':
+        performHelpAction();
+        break;
+    default:
+        printf("Invalid action.\n");
+        break;
 }
 
+        } else {
+            printf("Invalid input.\n");
+        }
+    }
 
     return 0;
 }
