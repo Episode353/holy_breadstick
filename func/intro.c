@@ -305,11 +305,13 @@ int main() {
                     performHelpAction();
                     break;
                 default:
+                clearScreen();
                     printf("Invalid action.\n");
                     break;
             }
         } else {
             printf("Invalid input.\n");
+            
         }
     }
 
