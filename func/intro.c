@@ -310,6 +310,7 @@ int main() {
                     break;
             }
         } else {
+            clearScreen();
             printf("Invalid input.\n");
             
         }
