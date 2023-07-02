@@ -152,47 +152,39 @@ void displayGrid() {
         }
     }
 
-     // Print the grid with colors and symbols
+ // Print the grid with colors and symbols
     for (int i = gridYsize - 1; i >= 0; i--) {
         printf("|"); // Print the left border
 
-        for (int j = 0; j < displayX; j++) {
-            // Get the color of the item or biome at the current position (j, i)
+        for (int j = 0; j < gridXsize; j++) {
+            // Get the color and symbol of the item at the current position (j, i)
             char color[20] = "";
             char symbol = grid[i][j];
+            int foundItem = 0; // Flag to indicate if an item is found at the current position
 
             // Check if the current position matches the player's position
             if (j == x_loc && i == y_loc) {
                 printf(" \033[1;33mP"); // Print player symbol with yellow color
             } else {
-                // Check if the current position contains an item
-                int isItem = 0;
+                // Check if there is an item at the current position
                 for (int k = 0; k < numItems; k++) {
                     if (items[k].x == j && items[k].y == i) {
-                        strcpy(color, items[k].color);
-                        symbol = items[k].symbol;
-                        isItem = 1;
+                        strcpy(color, items[k].color); // Set item color
+                        symbol = items[k].symbol; // Set item symbol
+                        foundItem = 1;
                         break;
                     }
                 }
 
-                // If it's not an item, check if it's a biome
-                if (!isItem) {
-                    int isBiome = 0;
+                // If no item is found, check if there is a biome at the current position
+                if (!foundItem) {
                     for (int k = 0; k < numBiomes; k++) {
                         if (j >= biomes[k].start_x && j <= biomes[k].end_x &&
                             i >= biomes[k].start_y && i <= biomes[k].end_y) {
-                            strcpy(color, biomes[k].color);
-                            symbol = biomes[k].symbol;
-                            isBiome = 1;
+                            strcpy(color, biomes[k].color); // Set biome color
+                            symbol = biomes[k].symbol; // Set biome symbol
                             break;
                         }
-                    }
-
-                    // If it's not a biome, set the default color and symbol
-                    if (!isBiome) {
-                        strcpy(color, ""); // Default color
-                        symbol = '.';     // Default symbol
                     }
                 }
 
@@ -201,8 +193,6 @@ void displayGrid() {
                     printf("\033[0;31m"); // Red
                 } else if (strcmp(color, "green") == 0) {
                     printf("\033[0;32m"); // Green
-                } else if (strcmp(color, "yellow") == 0) {
-                    printf("\033[0;33m"); // Yellow
                 } else if (strcmp(color, "blue") == 0) {
                     printf("\033[0;34m"); // Blue
                 } else {
@@ -223,15 +213,23 @@ void displayGrid() {
         printf("--");
     }
 
-    // Print the location, current position, and other information
+// Print the location, current position, and other information
     locationCheck();
+
+    // Check if there is a biome at the current position and print its name and description
+    for (int k = 0; k < numBiomes; k++) {
+        if (x_loc >= biomes[k].start_x && x_loc <= biomes[k].end_x &&
+            y_loc >= biomes[k].start_y && y_loc <= biomes[k].end_y) {
+            printf("Biome Name: %s\n", biomes[k].name);
+            printf("Description: %s\n", biomes[k].description);
+            break;
+        }
+    }
 
     printf("\n\n"); // Add newlines for spacing
 
     printf("\033[0m"); // Reset text color
 }
-
-
 
 
 
