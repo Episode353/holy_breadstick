@@ -35,8 +35,9 @@ typedef struct {
     char name[100];
     char color[20];
     char symbol;
-    char description[1000];
+    char description[10000];  // Increase the size of the description array
 } Biome;
+
 
 void parseBiomes(Biome* biomes, int* numBiomes) {
     FILE* file = fopen("biomes.txt", "r");
@@ -193,6 +194,8 @@ void displayGrid() {
                     printf("\033[0;31m"); // Red
                 } else if (strcmp(color, "green") == 0) {
                     printf("\033[0;32m"); // Green
+                } else if (strcmp(color, "yellow") == 0) {
+                    printf("\033[0;33m"); // Yellow
                 } else if (strcmp(color, "blue") == 0) {
                     printf("\033[0;34m"); // Blue
                 } else {

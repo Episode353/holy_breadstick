@@ -4,7 +4,7 @@ Go
 
 Goto
     Travels to specific coordinates, but will take an ammount of time
-    For example "go to 3,5" or "Go to 12,45"
+    For example "Go to 12,45"
 
 Look
     Look around and see what is in the area

@@ -1,6 +1,3 @@
-0,0,10,10,Forest,green,F,"A lush green forest."
-11,0,20,10,Desert,yellow,D,"A hot sandy desert."
-
-0,11,2,30,Hotel,blue,L,"A Hotel."
-5,2,10,30,Hotel,blue,B,"A Hotel."
-
+0,0,10,10,Forrest,green,^,"A lush green forest."
+10,10,20,20,Desert,yellow,^,"le hot"
+11,0,25,30,Lava,red,^,"TOO HOT"
