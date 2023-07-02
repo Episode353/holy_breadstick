@@ -1,2 +1,6 @@
-0,0,26,28,Forest,green,.,This is a lush forest biome.
-10,10,26,28,Desert,yellow,D,A Barren Wasteland.
+0,0,10,10,Forest,green,F,"A lush green forest."
+11,0,20,10,Desert,yellow,D,"A hot sandy desert."
+
+0,11,2,30,Hotel,blue,L,"A Hotel."
+5,2,10,30,Hotel,blue,B,"A Hotel."
+

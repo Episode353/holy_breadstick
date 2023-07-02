@@ -46,19 +46,19 @@ void parseBiomes(Biome* biomes, int* numBiomes) {
     }
 
     int count = 0;
-    while (!feof(file)) {
-        Biome biome;
-        if (fscanf(file, "%d,%d,%d,%d,%[^,],%[^,],%c,%[^\n]\n",
-            &biome.start_x, &biome.start_y, &biome.end_x, &biome.end_y,
-            biome.name, biome.color, &biome.symbol, biome.description) == 8) {
-            biomes[count] = biome;
-            count++;
-        }
+    while (count < 100 && // Avoid reading more biomes than the array can hold
+           fscanf(file, "%d,%d,%d,%d,%[^,],%[^,],%c,%[^\n]\n",
+           &biomes[count].start_x, &biomes[count].start_y,
+           &biomes[count].end_x, &biomes[count].end_y,
+           biomes[count].name, biomes[count].color,
+           &biomes[count].symbol, biomes[count].description) == 8) {
+        count++;
     }
 
     fclose(file);
     *numBiomes = count;
 }
+
 
 
 // Function to parse item data from items.txt
@@ -152,7 +152,7 @@ void displayGrid() {
         }
     }
 
-    // Print the grid with colors and symbols
+     // Print the grid with colors and symbols
     for (int i = gridYsize - 1; i >= 0; i--) {
         printf("|"); // Print the left border
 
@@ -178,17 +178,23 @@ void displayGrid() {
 
                 // If it's not an item, check if it's a biome
                 if (!isItem) {
+                    int isBiome = 0;
                     for (int k = 0; k < numBiomes; k++) {
                         if (j >= biomes[k].start_x && j <= biomes[k].end_x &&
                             i >= biomes[k].start_y && i <= biomes[k].end_y) {
                             strcpy(color, biomes[k].color);
                             symbol = biomes[k].symbol;
+                            isBiome = 1;
                             break;
                         }
                     }
-                }
 
-                
+                    // If it's not a biome, set the default color and symbol
+                    if (!isBiome) {
+                        strcpy(color, ""); // Default color
+                        symbol = '.';     // Default symbol
+                    }
+                }
 
                 // Set the text color
                 if (strcmp(color, "red") == 0) {
