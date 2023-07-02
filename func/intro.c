@@ -95,9 +95,25 @@ const int gridYsize = 30;
 
 
 void displayGrid() {
+    // Read the viewable grid size from the "render_distance.txt" file
+    FILE* gridSizeFile = fopen("render_distance.txt", "r");
+    if (gridSizeFile == NULL) {
+        printf("Failed to open render_distance.txt.\n");
+        return;
+    }
+
+    int displayX, displayY;
+    if (fscanf(gridSizeFile, "%d,%d", &displayX, &displayY) != 2) {
+        printf("Invalid grid size in render_distance.txt.\n");
+        fclose(gridSizeFile);
+        return;
+    }
+
+    fclose(gridSizeFile);
+
     // Print the Top border
     printf(" ");
-    for (int i = 0; i < gridXsize; i++) {
+    for (int i = 0; i < displayX; i++) {
         printf("--");
     }
     printf("\n");
@@ -140,32 +156,53 @@ void displayGrid() {
     for (int i = gridYsize - 1; i >= 0; i--) {
         printf("|"); // Print the left border
 
-        for (int j = 0; j < gridXsize; j++) {
-            // Get the color of the item at the current position (j, i)
+        for (int j = 0; j < displayX; j++) {
+            // Get the color of the item or biome at the current position (j, i)
             char color[20] = "";
             char symbol = grid[i][j];
-            for (int k = 0; k < numItems; k++) {
-                if (items[k].x == j && items[k].y == i) {
-                    strcpy(color, items[k].color);
-                    break;
-                }
-            }
-
-            // Set the text color
-            if (strcmp(color, "red") == 0) {
-                printf("\033[0;31m"); // Red
-            } else if (strcmp(color, "green") == 0) {
-                printf("\033[0;32m"); // Green
-            } else if (strcmp(color, "blue") == 0) {
-                printf("\033[0;34m"); // Blue
-            } else {
-                printf("\033[0m"); // Default color
-            }
 
             // Check if the current position matches the player's position
             if (j == x_loc && i == y_loc) {
                 printf(" \033[1;33mP"); // Print player symbol with yellow color
             } else {
+                // Check if the current position contains an item
+                int isItem = 0;
+                for (int k = 0; k < numItems; k++) {
+                    if (items[k].x == j && items[k].y == i) {
+                        strcpy(color, items[k].color);
+                        symbol = items[k].symbol;
+                        isItem = 1;
+                        break;
+                    }
+                }
+
+                // If it's not an item, check if it's a biome
+                if (!isItem) {
+                    for (int k = 0; k < numBiomes; k++) {
+                        if (j >= biomes[k].start_x && j <= biomes[k].end_x &&
+                            i >= biomes[k].start_y && i <= biomes[k].end_y) {
+                            strcpy(color, biomes[k].color);
+                            symbol = biomes[k].symbol;
+                            break;
+                        }
+                    }
+                }
+
+                
+
+                // Set the text color
+                if (strcmp(color, "red") == 0) {
+                    printf("\033[0;31m"); // Red
+                } else if (strcmp(color, "green") == 0) {
+                    printf("\033[0;32m"); // Green
+                } else if (strcmp(color, "yellow") == 0) {
+                    printf("\033[0;33m"); // Yellow
+                } else if (strcmp(color, "blue") == 0) {
+                    printf("\033[0;34m"); // Blue
+                } else {
+                    printf("\033[0m"); // Default color
+                }
+
                 printf(" %c", symbol); // Add space before character
             }
         }
@@ -176,7 +213,7 @@ void displayGrid() {
 
     // Print the bottom border
     printf(" ");
-    for (int i = 0; i < gridXsize; i++) {
+    for (int i = 0; i < displayX; i++) {
         printf("--");
     }
 
@@ -194,7 +231,9 @@ void displayGrid() {
 
 
 
+
 int main() {
+    
     printf("\033[0m"); // Reset text color
     system("cls");
 
@@ -219,8 +258,12 @@ int main() {
     char userInput[100];
     int quit = 0;
 
+    // Prompt for the size of the displayed portion of the view
+    int displayX, displayY;
+
+
     while (!quit) {
-        displayGrid();  // Display the grid
+        displayGrid(displayX, displayY);  // Display the grid
 
         printf("Enter your action: ");
         fgets(userInput, sizeof(userInput), stdin);
@@ -232,33 +275,32 @@ int main() {
 
         if (action != NULL) {
             switch (action[0]) {
-    case 'g':
-        if (strcmp(action, "go") == 0) {
-            performGoAction(argument);
-        } else if (strcmp(action, "goto") == 0) {
-            performGoToAction(argument);
-        } else {
-            printf("Invalid action.\n");
-        }
-        break;
-    case 'l':
-        if (strcmp(action, "look") == 0) {
-            performLookAction();
-        } else {
-            printf("Invalid action.\n");
-        }
-        break;
-    case 'q':
-        performQuitAction();
-        break;
-    case 'h':
-        performHelpAction();
-        break;
-    default:
-        printf("Invalid action.\n");
-        break;
-}
-
+                case 'g':
+                    if (strcmp(action, "go") == 0) {
+                        performGoAction(argument);
+                    } else if (strcmp(action, "goto") == 0) {
+                        performGoToAction(argument);
+                    } else {
+                        printf("Invalid action.\n");
+                    }
+                    break;
+                case 'l':
+                    if (strcmp(action, "look") == 0) {
+                        performLookAction();
+                    } else {
+                        printf("Invalid action.\n");
+                    }
+                    break;
+                case 'q':
+                    performQuitAction();
+                    break;
+                case 'h':
+                    performHelpAction();
+                    break;
+                default:
+                    printf("Invalid action.\n");
+                    break;
+            }
         } else {
             printf("Invalid input.\n");
         }

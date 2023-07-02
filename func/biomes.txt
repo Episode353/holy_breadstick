@@ -1,2 +1,2 @@
-0,0,26,30,Forest,green,F,This is a lush forest biome.
-20,5,25,10,Desert,yellow,D,This is a hot desert biome.
+0,0,26,28,Forest,green,.,This is a lush forest biome.
+10,10,26,28,Desert,yellow,D,A Barren Wasteland.
