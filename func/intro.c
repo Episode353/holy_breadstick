@@ -244,6 +244,13 @@ int main() {
     printf("\033[0m"); // Reset text color
     system("cls");
 
+     // Read the player's position from the "player_pos.txt" file
+    FILE* playerPosFile = fopen("player_pos.txt", "r");
+    if (playerPosFile != NULL) {
+        fscanf(playerPosFile, "%d,%d", &x_loc, &y_loc);
+        fclose(playerPosFile);
+    }
+
     FILE* read_name;
 
     // Open a file in read mode

@@ -15,6 +15,19 @@ void clearScreen() {
 #endif
 }
 
+void storePlayerPosition(int x, int y) {
+    FILE* file = fopen("player_pos.txt", "w");
+    if (file == NULL) {
+        printf("Failed to open player_pos.txt for writing.\n");
+        return;
+    }
+
+    fprintf(file, "%d,%d\n", x, y);
+
+    fclose(file);
+}
+
+
 // Function for handling action: Go
 void performGoAction(const char* action) {
     clearScreen();
@@ -33,6 +46,7 @@ void performGoAction(const char* action) {
 
     printf("You go %s.\n", action);
     printf("New position: x = %d, y = %d.\n", x_loc, y_loc);
+    storePlayerPosition(x_loc, y_loc); // Store the player's position
 }
 
 // Function for handling action: Go To
@@ -65,6 +79,7 @@ void performGoToAction(const char* coordinates) {
     y_loc = y_dest;
 
     printf("New position: x = %d, y = %d.\n", x_loc, y_loc);
+    storePlayerPosition(x_loc, y_loc); // Store the player's position
 }
 
 
