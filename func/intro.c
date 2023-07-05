@@ -4,6 +4,7 @@
 #include "actions.c"
 #include "textcolors.c"
 
+
 // Hold Program until user input
 void press_any_key_to_continue() {
     printf("\nPress a key to continue...");
@@ -223,6 +224,7 @@ int main() {
 
 
    while (!quit) {
+        
         displayGrid(viewableArea);  // Display the grid
 
         printf("Enter your action: ");
