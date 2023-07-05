@@ -1,7 +1,13 @@
-#This is a Comment
 #Any line that Starts with "#" is ignored by the program.
 #Comment lines to improve organization of the file
 
 
-3,4,red,Small Can,C
+#The Item is the Visual Representation of an Object
+#A Location (locations.txt) does not have any visual representation unless it is paired with an item
+#Items and locations are indipendent, you can have a location without an item, or a item without a location and so on.
+
+
+#X Position, Y Position, Item Color, Name, Represented Symbol
+
+3,4,magenta,Small Can,C
 7,2,blue,Blue Can,F

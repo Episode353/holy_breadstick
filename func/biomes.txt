@@ -1,8 +1,33 @@
-#This is a Comment
 #Any line that Starts with "#" is ignored by the program.
 #Comment lines to improve organization of the file
 
 
-0,0,10,10,Forrest,green,^,"A lush green forest."
-10,10,20,20,Desert,yellow,#,"le hot"
-11,0,205,30,Lava,red,~,"TOO HOT"
+#X Start,Y Start,X End,Y End,Biome Name,Biome Color,Character Representation, Biome Description
+
+#Available Colors------------------ 
+
+#black
+#red
+#green
+#yellow
+#blue
+#magenta
+#cyan
+#white
+#bright_black
+#bright_red
+#bright_green
+#bright_yellow
+#bright_blue
+#bright_magenta
+#bright_cyan
+#bright_white
+
+#Example Biomes---------------------------------------
+
+#181,181,190,190,Oasis,turquoise,=,"A lush green oasis in the midst of a barren desert, offering respite and life."
+#191,191,200,200,Meadow,lightgreen,^,"An open field covered in colorful flowers and gentle grassy slopes."
+
+#Place Biomes Under Here-----------------------------------------------------------------------------------------------------------------
+
+11,11,20,20,Oasis,blue,~,"A lush green oasis in the midst of a barren desert, offering respite and life."

@@ -128,7 +128,7 @@ void parseLocations(Location* locations, int* numLocations) {
     while (fgets(line, sizeof(line), file)) {
         if (line[0] != '#') { // Ignore lines starting with '#'
             sscanf(line, "%d,%d,%[^,],%[^,],%[^\n]\n",
-                   &locations[count].x, &locations[count].y, locations[count].color, locations[count].name, locations[count].description);
+                   &locations[count].x, &locations[count].y, locations[count].name, locations[count].description);
             count++;
         }
     }

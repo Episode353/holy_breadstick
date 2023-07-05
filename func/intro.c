@@ -128,18 +128,43 @@ void displayGrid(ViewableArea area) {
                     }
                 }
 
-                // Set the text color
-                if (strcmp(color, "red") == 0) {
-                    printf("\033[0;31m"); // Red
-                } else if (strcmp(color, "green") == 0) {
-                    printf("\033[0;32m"); // Green
-                } else if (strcmp(color, "yellow") == 0) {
-                    printf("\033[0;33m"); // Yellow
-                } else if (strcmp(color, "blue") == 0) {
-                    printf("\033[0;34m"); // Blue
-                } else {
-                    printf("\033[0m"); // Default color
-                }
+                        // Set the text color
+                        if (strcmp(color, "black") == 0) {
+                            printf("\033[0;30m"); // Black
+                        } else if (strcmp(color, "red") == 0) {
+                            printf("\033[0;31m"); // Red
+                        } else if (strcmp(color, "green") == 0) {
+                            printf("\033[0;32m"); // Green
+                        } else if (strcmp(color, "yellow") == 0) {
+                            printf("\033[0;33m"); // Yellow
+                        } else if (strcmp(color, "blue") == 0) {
+                            printf("\033[0;34m"); // Blue
+                        } else if (strcmp(color, "magenta") == 0) {
+                            printf("\033[0;35m"); // Magenta
+                        } else if (strcmp(color, "cyan") == 0) {
+                            printf("\033[0;36m"); // Cyan
+                        } else if (strcmp(color, "white") == 0) {
+                            printf("\033[0;37m"); // White
+                        } else if (strcmp(color, "bright_black") == 0) {
+                            printf("\033[0;90m"); // Bright Black
+                        } else if (strcmp(color, "bright_red") == 0) {
+                            printf("\033[0;91m"); // Bright Red
+                        } else if (strcmp(color, "bright_green") == 0) {
+                            printf("\033[0;92m"); // Bright Green
+                        } else if (strcmp(color, "bright_yellow") == 0) {
+                            printf("\033[0;93m"); // Bright Yellow
+                        } else if (strcmp(color, "bright_blue") == 0) {
+                            printf("\033[0;94m"); // Bright Blue
+                        } else if (strcmp(color, "bright_magenta") == 0) {
+                            printf("\033[0;95m"); // Bright Magenta
+                        } else if (strcmp(color, "bright_cyan") == 0) {
+                            printf("\033[0;96m"); // Bright Cyan
+                        } else if (strcmp(color, "bright_white") == 0) {
+                            printf("\033[0;97m"); // Bright White
+                        } else {
+                            printf("\033[0m"); // Default color
+                        }
+
 
                 printf(" %c", symbol); // Add space before character
             }
