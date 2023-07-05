@@ -6,6 +6,8 @@
 extern int x_loc;
 extern int y_loc;
 
+
+
 // Structure to store location data
 typedef struct {
     int x;
@@ -137,4 +139,22 @@ void locationCheck() {
     }
 
     printf("\n");
+}
+
+//Define name
+char name[100];
+
+//Read Name and Store it 
+void readName() {
+        FILE* read_name;
+
+    // Open a file in read mode
+    read_name = fopen("char_data/name.txt", "r");
+
+
+
+    // Read the content and store it inside myString
+    fgets(name, 100, read_name);
+
+    fclose(read_name);
 }

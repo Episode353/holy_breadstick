@@ -203,17 +203,8 @@ int main() {
     readPlayerPosition();
     ViewableArea viewableArea;
     readViewableArea(&viewableArea);
+    readName();
 
-    FILE* read_name;
-
-    // Open a file in read mode
-    read_name = fopen("char_data/name.txt", "r");
-
-    // Store Name
-    char name[100];
-
-    // Read the content and store it inside myString
-    fgets(name, 100, read_name);
 
     // Print the file content
     printf("Welcome, %s", name);
@@ -250,6 +241,7 @@ int main() {
                     if (strcmp(action, "look") == 0) {
                         performLookAction();
                     } else {
+                        clearScreen();
                         printf("Invalid action.\n");
                     }
                     break;
@@ -258,6 +250,12 @@ int main() {
                     break;
                 case 'h':
                     performHelpAction();
+                    break;
+                case 'r':
+                   if (strcmp(action, "reload") == 0) {
+                        printf("Reloading Program...");
+                        system("intro.exe");
+                    } 
                     break;
                 default:
                 clearScreen();
