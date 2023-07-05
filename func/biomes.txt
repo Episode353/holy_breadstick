@@ -1,3 +1,3 @@
 0,0,10,10,Forrest,green,^,"A lush green forest."
 10,10,20,20,Desert,yellow,#,"le hot"
-11,0,25,30,Lava,red,~,"TOO HOT"
+11,0,205,30,Lava,red,~,"TOO HOT"

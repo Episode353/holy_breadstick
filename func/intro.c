@@ -15,9 +15,6 @@ void press_any_key_to_continue() {
 #endif
 }
 
-
-
-
 // Structure to store item data
 typedef struct {
     int x;
@@ -38,7 +35,6 @@ typedef struct {
     char description[10000];  // Increase the size of the description array
 } Biome;
 
-
 void parseBiomes(Biome* biomes, int* numBiomes) {
     FILE* file = fopen("biomes.txt", "r");
     if (file == NULL) {
@@ -49,18 +45,16 @@ void parseBiomes(Biome* biomes, int* numBiomes) {
     int count = 0;
     while (count < 100 && // Avoid reading more biomes than the array can hold
            fscanf(file, "%d,%d,%d,%d,%[^,],%[^,],%c,%[^\n]\n",
-           &biomes[count].start_x, &biomes[count].start_y,
-           &biomes[count].end_x, &biomes[count].end_y,
-           biomes[count].name, biomes[count].color,
-           &biomes[count].symbol, biomes[count].description) == 8) {
+                  &biomes[count].start_x, &biomes[count].start_y,
+                  &biomes[count].end_x, &biomes[count].end_y,
+                  biomes[count].name, biomes[count].color,
+                  &biomes[count].symbol, biomes[count].description) == 8) {
         count++;
     }
 
     fclose(file);
     *numBiomes = count;
 }
-
-
 
 // Function to parse item data from items.txt
 void parseItems(Item* items, int* numItems) {
@@ -83,48 +77,49 @@ void parseItems(Item* items, int* numItems) {
     *numItems = count;
 }
 
-//Display
-//Display
+// Display
 // User Location
 int x_loc;
 int y_loc;
 
-// Grid size
-const int gridXsize = 40;
-const int gridYsize = 30;
+// Structure to store the viewable area dimensions
+typedef struct {
+    int width;
+    int height;
+} ViewableArea;
+
+void readPlayerPosition() {
+    FILE* playerPosFile = fopen("player_pos.txt", "r");
+    if (playerPosFile != NULL) {
+        fscanf(playerPosFile, "%d,%d", &x_loc, &y_loc);
+        fclose(playerPosFile);
+    }
+}
 
 
-
-void displayGrid() {
-    // Read the viewable grid size from the "render_distance.txt" file
+void readViewableArea(ViewableArea* area) {
     FILE* gridSizeFile = fopen("render_distance.txt", "r");
     if (gridSizeFile == NULL) {
         printf("Failed to open render_distance.txt.\n");
         return;
     }
 
-    int displayX, displayY;
-    if (fscanf(gridSizeFile, "%d,%d", &displayX, &displayY) != 2) {
+    if (fscanf(gridSizeFile, "%d,%d", &area->width, &area->height) != 2) {
         printf("Invalid grid size in render_distance.txt.\n");
         fclose(gridSizeFile);
         return;
     }
 
     fclose(gridSizeFile);
+}
 
-    // Print the Top border
-    printf(" ");
-    for (int i = 0; i < displayX; i++) {
-        printf("--");
-    }
-    printf("\n");
-
+void displayGrid(ViewableArea area) {
     // Create a 2D array to represent the grid
-    char grid[gridYsize][gridXsize];
+    char grid[area.height][area.width];
 
     // Initialize the grid with empty spaces
-    for (int i = 0; i < gridYsize; i++) {
-        for (int j = 0; j < gridXsize; j++) {
+    for (int i = 0; i < area.height; i++) {
+        for (int j = 0; j < area.width; j++) {
             grid[i][j] = '.';
         }
     }
@@ -136,7 +131,11 @@ void displayGrid() {
 
     // Set the items' positions and symbols in the grid
     for (int i = 0; i < numItems; i++) {
-        grid[items[i].y][items[i].x] = items[i].symbol;
+        int x = items[i].x - x_loc;
+        int y = items[i].y - y_loc;
+        if (x >= 0 && x < area.width && y >= 0 && y < area.height) {
+            grid[y][x] = items[i].symbol;
+        }
     }
 
     // Create an array to store biome data
@@ -144,32 +143,25 @@ void displayGrid() {
     int numBiomes = 0;
     parseBiomes(biomes, &numBiomes);
 
-    // Set the biomes on the grid
-    for (int i = 0; i < numBiomes; i++) {
-        for (int y = biomes[i].start_y; y <= biomes[i].end_y; y++) {
-            for (int x = biomes[i].start_x; x <= biomes[i].end_x; x++) {
-                grid[y][x] = biomes[i].symbol;
-            }
-        }
-    }
-
- // Print the grid with colors and symbols
-    for (int i = gridYsize - 1; i >= 0; i--) {
+    // Print the grid with colors and symbols
+    for (int i = area.height - 1; i >= 0; i--) {
         printf("|"); // Print the left border
 
-        for (int j = 0; j < gridXsize; j++) {
+        for (int j = 0; j < area.width; j++) {
             // Get the color and symbol of the item at the current position (j, i)
             char color[20] = "";
             char symbol = grid[i][j];
             int foundItem = 0; // Flag to indicate if an item is found at the current position
 
             // Check if the current position matches the player's position
-            if (j == x_loc && i == y_loc) {
+            if (j == 0 && i == 0) {
                 printf(" \033[1;33mP"); // Print player symbol with yellow color
             } else {
                 // Check if there is an item at the current position
                 for (int k = 0; k < numItems; k++) {
-                    if (items[k].x == j && items[k].y == i) {
+                    int x = items[k].x - x_loc;
+                    int y = items[k].y - y_loc;
+                    if (x == j && y == i) {
                         strcpy(color, items[k].color); // Set item color
                         symbol = items[k].symbol; // Set item symbol
                         foundItem = 1;
@@ -180,8 +172,8 @@ void displayGrid() {
                 // If no item is found, check if there is a biome at the current position
                 if (!foundItem) {
                     for (int k = 0; k < numBiomes; k++) {
-                        if (j >= biomes[k].start_x && j <= biomes[k].end_x &&
-                            i >= biomes[k].start_y && i <= biomes[k].end_y) {
+                        if (j + x_loc >= biomes[k].start_x && j + x_loc <= biomes[k].end_x &&
+                            i + y_loc >= biomes[k].start_y && i + y_loc <= biomes[k].end_y) {
                             strcpy(color, biomes[k].color); // Set biome color
                             symbol = biomes[k].symbol; // Set biome symbol
                             break;
@@ -210,13 +202,7 @@ void displayGrid() {
         printf("\n");
     }
 
-    // Print the bottom border
-    printf(" ");
-    for (int i = 0; i < displayX; i++) {
-        printf("--");
-    }
-
-// Print the location, current position, and other information
+    // Print the location, current position, and other information
     locationCheck();
 
     // Check if there is a biome at the current position and print its name and description
@@ -234,22 +220,14 @@ void displayGrid() {
     printf("\033[0m"); // Reset text color
 }
 
-
-
-
-
-
 int main() {
-    
     printf("\033[0m"); // Reset text color
     system("cls");
 
-     // Read the player's position from the "player_pos.txt" file
-    FILE* playerPosFile = fopen("player_pos.txt", "r");
-    if (playerPosFile != NULL) {
-        fscanf(playerPosFile, "%d,%d", &x_loc, &y_loc);
-        fclose(playerPosFile);
-    }
+    // Read the player's position and viewable area from files
+    readPlayerPosition();
+    ViewableArea viewableArea;
+    readViewableArea(&viewableArea);
 
     FILE* read_name;
 
@@ -266,18 +244,12 @@ int main() {
     printf("Welcome, %s", name);
     printf("\n");
 
-    // Close the file
-    fclose(read_name);
-
     char userInput[100];
     int quit = 0;
 
-    // Prompt for the size of the displayed portion of the view
-    int displayX, displayY;
 
-
-    while (!quit) {
-        displayGrid(displayX, displayY);  // Display the grid
+   while (!quit) {
+        displayGrid(viewableArea);  // Display the grid
 
         printf("Enter your action: ");
         fgets(userInput, sizeof(userInput), stdin);
