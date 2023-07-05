@@ -1,2 +1,7 @@
+#This is a Comment
+#Any line that Starts with "#" is ignored by the program.
+#Comment lines to improve organization of the file
+
+
 3,4,red,Small Can,C
 7,2,blue,Blue Can,F

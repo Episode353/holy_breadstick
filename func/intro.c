@@ -15,67 +15,8 @@ void press_any_key_to_continue() {
 #endif
 }
 
-// Structure to store item data
-typedef struct {
-    int x;
-    int y;
-    char color[20];
-    char name[100];
-    char symbol;
-} Item;
 
-typedef struct {
-    int start_x;
-    int start_y;
-    int end_x;
-    int end_y;
-    char name[100];
-    char color[20];
-    char symbol;
-    char description[10000];  // Increase the size of the description array
-} Biome;
 
-void parseBiomes(Biome* biomes, int* numBiomes) {
-    FILE* file = fopen("biomes.txt", "r");
-    if (file == NULL) {
-        printf("Failed to open biomes.txt.\n");
-        return;
-    }
-
-    int count = 0;
-    while (count < 100 && // Avoid reading more biomes than the array can hold
-           fscanf(file, "%d,%d,%d,%d,%[^,],%[^,],%c,%[^\n]\n",
-                  &biomes[count].start_x, &biomes[count].start_y,
-                  &biomes[count].end_x, &biomes[count].end_y,
-                  biomes[count].name, biomes[count].color,
-                  &biomes[count].symbol, biomes[count].description) == 8) {
-        count++;
-    }
-
-    fclose(file);
-    *numBiomes = count;
-}
-
-// Function to parse item data from items.txt
-void parseItems(Item* items, int* numItems) {
-    FILE* file = fopen("items.txt", "r");
-    if (file == NULL) {
-        printf("Failed to open items.txt.\n");
-        return;
-    }
-
-    int count = 0;
-    while (!feof(file)) {
-        Item item;
-        if (fscanf(file, "%d,%d,%[^,],%[^,],%c\n", &item.x, &item.y, item.color, item.name, &item.symbol) == 5) {
-            items[count] = item;
-            count++;
-        }
-    }
-
-    fclose(file);
-    *numItems = count;
-}
 
 // Display
 // User Location
