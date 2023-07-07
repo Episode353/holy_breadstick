@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <conio.h>
+
 #include <string.h>
 #include <stdlib.h>
 #include "actions.c"
@@ -214,11 +216,43 @@ int main() {
     int quit = 0;
 
 
-   while (!quit) {
-        
-        displayGrid(viewableArea);  // Display the grid
+  // ...
 
-        printf("Enter your action: ");
+while (!quit) {
+    displayGrid(viewableArea);  // Display the grid
+
+    printf("Enter your action: ");
+
+    // Read the arrow key input
+    int arrowKey = getch();
+
+    // Check if the input is an arrow key
+    if (arrowKey == 0 || arrowKey == 224) {
+        // Read the arrow key
+        arrowKey = getch();
+
+        // Check the arrow key input
+        switch (arrowKey) {
+            case 72: // Up arrow key
+                performGoAction("north");
+                break;
+            case 80: // Down arrow key
+                performGoAction("south");
+                break;
+            case 75: // Left arrow key
+                performGoAction("west");
+                break;
+            case 77: // Right arrow key
+                performGoAction("east");
+                break;
+            default:
+                clearScreen();
+                printf("Invalid input.\n");
+                break;
+        }
+    } else {
+        // Parse the user's input to determine the action and argument
+        char userInput[100];
         fgets(userInput, sizeof(userInput), stdin);
         userInput[strcspn(userInput, "\n")] = '\0';  // Remove the newline character
 
@@ -234,6 +268,7 @@ int main() {
                     } else if (strcmp(action, "goto") == 0) {
                         performGoToAction(argument);
                     } else {
+                        clearScreen();
                         printf("Invalid action.\n");
                     }
                     break;
@@ -252,22 +287,26 @@ int main() {
                     performHelpAction();
                     break;
                 case 'r':
-                   if (strcmp(action, "reload") == 0) {
+                    if (strcmp(action, "reload") == 0) {
                         printf("Reloading Program...");
                         system("intro.exe");
                     } 
                     break;
                 default:
-                clearScreen();
+                    clearScreen();
                     printf("Invalid action.\n");
                     break;
             }
         } else {
             clearScreen();
             printf("Invalid input.\n");
-            
         }
     }
+}
+
+// ...
+
+
 
     return 0;
 }
