@@ -2,14 +2,17 @@ Go-------------------------------------------------------------------
     Use "Go" followed by a direction to go that direction instantly
     For example "Go North" or "Go East"
 
-Goto-------------------------------------------------------------------
+Goto------------------------------------------------------------------
     Travels to specific coordinates, but will take an ammount of time
     For example "Go to 12,45"
+
+Arrow Keys Movement---------------------------------------------------
+    Use the Arrow Keys to navigate quickly, without typing
 
 Look-------------------------------------------------------------------
     Look around and see what is in the area
 
-Reload-------------------------------------------------------------------
+Reload-----------------------------------------------------------------
     Reload the Program
     
 Quit-------------------------------------------------------------------
