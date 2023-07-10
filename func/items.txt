@@ -11,3 +11,7 @@
 
 3,4,magenta,Small Can,C
 7,2,blue,Blue Can,F
+
+#Npcs
+3,5,yellow,John,☺
+7,8,yellow,Jane,☺

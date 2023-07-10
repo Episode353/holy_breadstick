@@ -7,16 +7,6 @@
 #include "textcolors.c"
 
 
-// Hold Program until user input
-void press_any_key_to_continue() {
-    printf("\nPress a key to continue...");
-#ifdef _WIN32
-    _getch();
-#else
-    __fpurge(stdin);
-    getchar();
-#endif
-}
 
 
 
@@ -39,6 +29,7 @@ void readPlayerPosition() {
         fclose(playerPosFile);
     }
 }
+
 
 
 void readViewableArea(ViewableArea* area) {
@@ -179,7 +170,7 @@ void displayGrid(ViewableArea area) {
 
     // Print the location, current position, and other information
     locationCheck();
-
+    displayNPCs();
     // Check if there is a biome at the current position and print its name and description
     for (int k = 0; k < numBiomes; k++) {
         if (x_loc >= biomes[k].start_x && x_loc <= biomes[k].end_x &&
@@ -206,7 +197,7 @@ int main() {
     ViewableArea viewableArea;
     readViewableArea(&viewableArea);
     readName();
-
+    loadNPCData();
 
     // Print the file content
     printf("Welcome, %s", name);

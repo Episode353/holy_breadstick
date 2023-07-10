@@ -6,6 +6,16 @@
 extern int x_loc;
 extern int y_loc;
 
+typedef struct {
+    char name[100];
+    char dialogue[1000];
+    int x;
+    int y;
+    // Add other attributes as needed
+} NPC;
+
+NPC npcs[100]; // Adjust the maximum number of NPCs as needed
+int numNPCs = 0; // Keep track of the number of NPCs in the array
 
 
 // Structure to store location data
@@ -158,3 +168,23 @@ void readName() {
 
     fclose(read_name);
 }
+
+void loadNPCData() {
+    FILE* file = fopen("npc_data.txt", "r");
+    if (file == NULL) {
+        printf("Failed to open npc_data.txt.\n");
+        return;
+    }
+
+    char line[1000];
+    while (fgets(line, sizeof(line), file)) {
+        if (line[0] != '#') { // Ignore lines starting with '#'
+            sscanf(line, "%[^,],%[^,],%d,%d\n", npcs[numNPCs].name, npcs[numNPCs].dialogue, &npcs[numNPCs].x, &npcs[numNPCs].y);
+            numNPCs++;
+        }
+    }
+
+    fclose(file);
+}
+
+

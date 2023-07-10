@@ -37,3 +37,4 @@ void fadeTextIn(const char* text, int delay) {
         usleep(delay * 1000); // Delay in milliseconds
     }
 }
+

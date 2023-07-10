@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include "commands.c"
 #include "load_dat.c"
 
 
@@ -100,7 +101,14 @@ void performQuitAction() {
 }
 
 
-
+void displayNPCs() {
+    for (int i = 0; i < numNPCs; i++) {
+        if (npcs[i].x == x_loc && npcs[i].y == y_loc) {
+            fadeTextIn(npcs[i].dialogue, 50); // Display NPC dialogue with fade-in effect
+            break;
+        }
+    }
+}
 
 
 
