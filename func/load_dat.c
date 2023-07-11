@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-
+#include <wchar.h>
 // User Location
 extern int x_loc;
 extern int y_loc;
@@ -12,9 +12,10 @@ typedef struct {
     int x;
     int y;
     char color[20];
-    char display_char;
+    int display_char; // Change the type to int
     // Add other attributes as needed
 } NPC;
+
 
 NPC npcs[100]; // Adjust the maximum number of NPCs as needed
 int numNPCs = 0; // Keep track of the number of NPCs in the array
@@ -196,8 +197,9 @@ void loadNPCData() {
     char line[1000];
     while (fgets(line, sizeof(line), file)) {
         if (line[0] != '#') { // Ignore lines starting with '#'
-            sscanf(line, "%[^,],%[^,],%d,%d,%[^,],%c\n", npcs[numNPCs].name, npcs[numNPCs].dialogue,
-                   &npcs[numNPCs].x, &npcs[numNPCs].y, npcs[numNPCs].color, &npcs[numNPCs].display_char);
+            sscanf(line, "%[^,],%[^,],%d,%d,%[^,],%d\n", npcs[numNPCs].name, npcs[numNPCs].dialogue,
+                &npcs[numNPCs].x, &npcs[numNPCs].y, npcs[numNPCs].color, &npcs[numNPCs].display_char);
+
             numNPCs++;
         }
     }
@@ -208,11 +210,16 @@ void loadNPCData() {
 void displayNPCs() {
     for (int i = 0; i < numNPCs; i++) {
         if (npcs[i].x == x_loc && npcs[i].y == y_loc) {
-            fadeTextIn(npcs[i].dialogue, 50); // Display NPC dialogue with fade-in effect
+            for (int j = 0; npcs[i].dialogue[j] != '\0'; j++) {
+                wprintf(L"%lc", npcs[i].dialogue[j]); // Display each character of NPC dialogue
+                fflush(stdout);
+                Sleep(50); // Optional delay between characters
+            }
             break;
         }
     }
 }
+
 
 
 void parseWalls(Wall* walls, int* numWalls) {

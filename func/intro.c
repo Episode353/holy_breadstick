@@ -201,7 +201,8 @@ void displayGrid(ViewableArea area) {
                     printf("\033[0m"); // Default color
                 }
 
-                printf(" %c", symbol); // Add space before character
+                wprintf(L" %lc", symbol); // Add space before character
+
             }
         }
         printf("\033[0m"); // Reset text color

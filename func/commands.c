@@ -29,12 +29,13 @@ Lets Npcs Dialogue load in slowly, for example
 // Call the fadeTextIn function for the NPC dialogue
 fadeTextIn(WHT "\nHey, um... excuse me.... how did you even get u- i mean,... who are you?!?\n" RESET, 50);
 */
-void fadeTextIn(const char* text, int delay) {
-    int length = strlen(text);
-    for (int i = 0; i < length; i++) {
-        putchar(text[i]);
-        fflush(stdout); // Flush the output buffer to display the character immediately
-        usleep(delay * 1000); // Delay in milliseconds
+void fadeTextIn(const wchar_t* text, int delay) {
+    int len = wcslen(text);
+    for (int i = 0; i < len; i++) {
+        wprintf(L"%lc", text[i]);
+        fflush(stdout);
+        Sleep(delay);
     }
+    printf("\n");
 }
 
