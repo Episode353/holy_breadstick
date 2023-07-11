@@ -1,2 +1,1 @@
-John,Hello, how are you?,3,5
-Jane,Nice to meet you!,7,8
+John,Hello How are you,3,8,green,J

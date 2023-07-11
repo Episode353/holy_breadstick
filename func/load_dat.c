@@ -11,11 +11,14 @@ typedef struct {
     char dialogue[1000];
     int x;
     int y;
+    char color[20];
+    char display_char;
     // Add other attributes as needed
 } NPC;
 
 NPC npcs[100]; // Adjust the maximum number of NPCs as needed
 int numNPCs = 0; // Keep track of the number of NPCs in the array
+
 
 
 // Structure to store location data
@@ -46,6 +49,20 @@ typedef struct {
     char symbol;
     char description[10000];  // Increase the size of the description array
 } Biome;
+
+typedef struct {
+    int start_x;
+    int start_y;
+    int end_x;
+    int end_y;
+    char color[20];
+    char symbol;
+} Wall;
+
+Wall walls[100]; // Adjust the maximum number of walls as needed
+int numWalls = 0;
+
+
 
 void parseLocations(Location* locations, int* numLocations) {
     FILE* file = fopen("locations.txt", "r");
@@ -179,7 +196,8 @@ void loadNPCData() {
     char line[1000];
     while (fgets(line, sizeof(line), file)) {
         if (line[0] != '#') { // Ignore lines starting with '#'
-            sscanf(line, "%[^,],%[^,],%d,%d\n", npcs[numNPCs].name, npcs[numNPCs].dialogue, &npcs[numNPCs].x, &npcs[numNPCs].y);
+            sscanf(line, "%[^,],%[^,],%d,%d,%[^,],%c\n", npcs[numNPCs].name, npcs[numNPCs].dialogue,
+                   &npcs[numNPCs].x, &npcs[numNPCs].y, npcs[numNPCs].color, &npcs[numNPCs].display_char);
             numNPCs++;
         }
     }
@@ -187,4 +205,35 @@ void loadNPCData() {
     fclose(file);
 }
 
+void displayNPCs() {
+    for (int i = 0; i < numNPCs; i++) {
+        if (npcs[i].x == x_loc && npcs[i].y == y_loc) {
+            fadeTextIn(npcs[i].dialogue, 50); // Display NPC dialogue with fade-in effect
+            break;
+        }
+    }
+}
 
+
+void parseWalls(Wall* walls, int* numWalls) {
+    FILE* file = fopen("walls.txt", "r");
+    if (file == NULL) {
+        printf("Failed to open walls.txt.\n");
+        return;
+    }
+
+    int count = 0;
+    char line[1000];
+    while (count < 100 && fgets(line, sizeof(line), file)) {
+        if (line[0] != '#') { // Ignore lines starting with '#'
+            sscanf(line, "%d,%d,%d,%d,%[^,],%c\n",
+                  &walls[count].start_x, &walls[count].start_y,
+                  &walls[count].end_x, &walls[count].end_y,
+                  walls[count].color, &walls[count].symbol);
+            count++;
+        }
+    }
+
+    fclose(file);
+    *numWalls = count;
+}

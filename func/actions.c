@@ -31,23 +31,39 @@ void storePlayerPosition(int x, int y) {
 // Function for handling action: Go
 void performGoAction(const char* action) {
     clearScreen();
+    int new_x_loc = x_loc;
+    int new_y_loc = y_loc;
+
     if (strcmp(action, "north") == 0) {
-        y_loc = y_loc + 1;  // Increase Y coordinate when moving north
+        new_y_loc = y_loc + 1;
     } else if (strcmp(action, "south") == 0) {
-        y_loc = y_loc - 1;  // Decrease Y coordinate when moving south
+        new_y_loc = y_loc - 1;
     } else if (strcmp(action, "east") == 0) {
-        x_loc = x_loc + 1;
+        new_x_loc = x_loc + 1;
     } else if (strcmp(action, "west") == 0) {
-        x_loc = x_loc - 1;
+        new_x_loc = x_loc - 1;
     } else {
         printf("Invalid action.\n");
         return;
     }
 
+    // Check if the target position is blocked by a wall
+    for (int i = 0; i < numWalls; i++) {
+        if ((new_x_loc >= walls[i].start_x && new_x_loc <= walls[i].end_x) &&
+            (new_y_loc >= walls[i].start_y && new_y_loc <= walls[i].end_y)) {
+            printf("A wall blocks your path.\n");
+            return;
+        }
+    }
+
+    x_loc = new_x_loc;
+    y_loc = new_y_loc;
+
     printf("You go %s.\n", action);
     printf("New position: x = %d, y = %d.\n", x_loc, y_loc);
     storePlayerPosition(x_loc, y_loc); // Store the player's position
 }
+
 
 // Function for handling action: Go To
 void performGoToAction(char* coordinates) {
@@ -101,14 +117,6 @@ void performQuitAction() {
 }
 
 
-void displayNPCs() {
-    for (int i = 0; i < numNPCs; i++) {
-        if (npcs[i].x == x_loc && npcs[i].y == y_loc) {
-            fadeTextIn(npcs[i].dialogue, 50); // Display NPC dialogue with fade-in effect
-            break;
-        }
-    }
-}
 
 
 
