@@ -88,9 +88,7 @@ void displayGrid(ViewableArea area) {
     int numBiomes = 0;
     parseBiomes(biomes, &numBiomes);
 
-    // Create an array to store wall data
-    Wall walls[100]; // Adjust the maximum number of walls as needed
-    int numWalls = 0;
+
     parseWalls(walls, &numWalls);
 
     // Calculate the player's position in the grid
